@@ -1,0 +1,187 @@
+﻿<Window x:Class="Slider_Exalt.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       xmlns:local="clr-namespace:Slider_Exalt"
+        mc:Ignorable="d"
+        Title="Slider Exalt" Height="450" Width="800" Background="Transparent">
+    <Window.Resources>
+        <Style TargetType="{x:Type Slider}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Slider}">
+                        <Grid>
+                            <Canvas x:Name="GraduationsCanvas" />
+
+                            <Track Name="PART_Track"
+                                   Orientation="Vertical"
+                                   IsDirectionReversed="True"
+                                   Minimum="{TemplateBinding Minimum}"
+                                   Maximum="{TemplateBinding Maximum}"
+                                   Value="{TemplateBinding Value}"
+                                   Width="{TemplateBinding Width}">
+
+                                <Track.Thumb>
+                                    <Thumb Width="50" Height="20" Background="Transparent" Name="thumb">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Grid>
+                                                    <Rectangle x:Name="thumbRectangle" StrokeThickness="1">
+                                                        <Rectangle.Fill>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                                <GradientStop Color="#ffbf00" Offset="0.0"/>
+                                                                <GradientStop Color="#e86100" Offset="1.0"/>
+                                                            </LinearGradientBrush>
+                                                        </Rectangle.Fill>
+                                                        <Rectangle.Stroke>
+                                                            <SolidColorBrush Color="#FFCC8400"/>
+                                                        </Rectangle.Stroke>
+                                                    </Rectangle>
+                                                    <TextBlock Text="{Binding Value, RelativeSource={RelativeSource AncestorType=Slider}, StringFormat={}{} μm }" x:Name="thumbText"
+                                                               FontSize="12"
+                                                               FontWeight="Bold"
+                                                               Background="Transparent"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0,0,0,0" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="thumbRectangle" Property="Fill" Value="DarkOrange" />
+                                                    </Trigger>
+                                                    <Trigger Property="IsDragging" Value="True">
+                                                        <Setter TargetName="thumbText" Property="Foreground" Value="White" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Width="0" Height="0" />
+                                </Track.DecreaseRepeatButton>
+
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Width="0" Height="0" />
+                                </Track.IncreaseRepeatButton>
+
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="CircularButtonStyle">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="buttonEllipse" StrokeThickness="1">
+                                <Ellipse.Fill>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                        <GradientStop Color="#FFCCCCCC" Offset="0.0"/>
+                                        <GradientStop Color="#FF999999" Offset="1.0"/>
+                                    </LinearGradientBrush>
+                                </Ellipse.Fill>
+                                <Ellipse.Stroke>
+                                    <SolidColorBrush Color="#FF666666"/>
+                                </Ellipse.Stroke>
+                            </Ellipse>
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="buttonEllipse" Property="Fill">
+                                    <Setter.Value>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#FFAAAAAA" Offset="0.0"/>
+                                            <GradientStop Color="#FF888888" Offset="1.0"/>
+                                        </LinearGradientBrush>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Height" Value="50"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="LightGray">
+
+
+
+
+        <!-- Texte 15 -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Pour le texte 15 -->
+            <RowDefinition Height="Auto"/>
+            <!-- Pour le bouton Up -->
+            <RowDefinition Height="*"/>
+            <!-- Pour le Slider -->
+            <RowDefinition Height="Auto"/>
+            <!-- Pour le texte 0 -->
+            <RowDefinition Height="Auto"/>
+            <!-- Pour le bouton Down -->
+        </Grid.RowDefinitions>
+
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" Grid.Row="2" Height="402">
+
+
+          
+            <Button Style="{StaticResource CircularButtonStyle}" 
+            Content="▲" 
+            Click="UpArrow_Click" 
+            Width="28" 
+            Height="21" />
+           
+            <TextBox Text="0 μm" 
+             Background="Transparent" 
+             FontWeight="Bold" 
+             FontSize="12" 
+             TextAlignment="Center" 
+             Padding="0,-1,0,0"       
+             Width="120" Height="23"
+            BorderThickness ="0"/>
+
+          
+            <Slider x:Name="customSlider" 
+            Orientation="Vertical" 
+            Minimum="0" 
+            Maximum="15" 
+            TickFrequency="1" 
+            IsSnapToTickEnabled="True" 
+            Loaded="CustomSlider_Loaded" 
+            Width="56" Height="307"/>
+
+            <TextBox Text="15 μm" 
+             Background="Transparent" 
+             FontWeight="Bold" 
+             FontSize="12" 
+             TextAlignment="Center" 
+             Padding="0,5,0,0"       
+             Width="120" Height="23"
+            BorderThickness ="0"/>
+
+            <Button Style="{StaticResource CircularButtonStyle}" 
+            Content="▼" 
+            Click="DownArrow_Click" 
+            Width="26" 
+            Height="22" />
+        </StackPanel>
+
+        <Image Name ="cellsImage" Source="pack://application:,,,/Image/cells.png" Height="395" Margin="147,10,-668,0" VerticalAlignment="Top" Grid.Row="2"/>
+
+
+
+    </Grid>
+</Window>
